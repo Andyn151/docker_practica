@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: flaskdb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  web:
+    build: ./app
+    ports:
+      - "8500:5000"  # Puerto local 8500 redirige al puerto 5000 dentro del contenedor
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: flaskdb
+    depends_on:
+      - db
+
+volumes:
+  postgres-data:
+
+
+
+
